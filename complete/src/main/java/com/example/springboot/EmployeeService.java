@@ -9,10 +9,21 @@ public class EmployeeService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
-	public String addEmployee(Employee emp) {
+	@Autowired
+	private DepartmentRepository departmentRepository;
+	
+	
+	public String addEmployee(EmployeeDto empDto) {
 		
 		try {
+			Employee emp = new Employee();
+			Department department = departmentRepository.findByDeptName(empDto.getDepartment().getDeptName());
+			emp.setDepartment(department);
+			emp.setEmail(empDto.getEmailId());
+			emp.setName(empDto.getName());
+			
 			Employee resp = employeeRepository.save(emp);
+			
 			return resp.getId().toString();
 		}
 		catch(Exception e) {

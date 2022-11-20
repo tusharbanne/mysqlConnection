@@ -1,6 +1,7 @@
 package com.example.springboot;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,18 +15,22 @@ public class HelloController {
 	@Autowired
 	private EmployeeService employeeService;
 	
-	@GetMapping("/files")
-	public String getFiles() {
-		return "";
+	@Autowired
+	private DepartmentService departmentService;
+	
+	@GetMapping("/department")
+	public Department getDepartment(@RequestParam("name") String name) {
+		return departmentService.getDepartment(name);
 	}
 	
-	@GetMapping("/add")
-	public Integer add(@RequestParam Integer benificaryId) {
-		return 11;
+	@PostMapping("/department")
+	public String addDepartment(@RequestBody DepartmentDto departmentDto) {
+		return departmentService.addDepartment(departmentDto);
 	}
+	
 
 	@PostMapping("/employee")
-	public String addEmployee(@RequestBody Employee employee) {
+	public String addEmployee(@RequestBody EmployeeDto employee) {
 		return employeeService.addEmployee(employee);
 	}
 	

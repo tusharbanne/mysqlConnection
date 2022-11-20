@@ -1,20 +1,34 @@
 package com.example.springboot;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Employee {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "EMPLOYEE_ID")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(name = "EMPLOYEE_NAME")
 	private String name;
 
+	@Column(name = "EMPLOYEE_EMAIL")
 	private String email;
+	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name="DEPT_ID", nullable=false, updatable=false)
+	private Department department;
 
 	public Integer getId() {
 		return id;
@@ -39,7 +53,14 @@ public class Employee {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
 	
 	
 }
